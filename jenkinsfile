@@ -72,7 +72,7 @@ pipeline {
             template {
                 name 'dockeragent'
          
-            }}
+            }}}
       steps{
         script {
           dockerImage = docker.build dockerimagename
