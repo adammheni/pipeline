@@ -42,8 +42,46 @@
                      }
                      }
 */
-
 pipeline {
+    environment {
+        dockerImageName = "adammheni/test"
+    }
+    agent {
+       docker {
+      image 'maven:3.6.3-jdk-11'
+      label 'dockeragent'
+           
+          
+            template {
+                name 'dockeragent'
+         
+            }
+    }
+    }
+    tools {
+        maven 'maven'
+    } 
+    stages {
+        stage('Build Maven') {
+            steps {
+                checkout scmGit(
+                    branches: [[name: '*/main']],
+                    extensions: [],
+                    userRemoteConfigs: [[url: 'https://github.com/adammheni/pipeline']]
+                )
+                sh 'mvn clean install'
+            }
+        }
+        stage('Build image') {
+            steps {
+                script {
+                    dockerImage = docker.build dockerImageName
+                }
+            }
+        }
+    }
+}
+/*pipeline {
 
 
 
@@ -79,7 +117,7 @@ pipeline {
         }
       
     }
-         }
+         }*/
  /*   stage('Pushing Image') {
 agent {docker{
      cloud 'docker0'
