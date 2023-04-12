@@ -65,7 +65,7 @@ pipeline {
             }
         }
          stage('Build image') {
-           agent docker{
+           agent {docker{
               cloud 'docker0'
                 label 'dockeragent'
             }
@@ -75,7 +75,7 @@ pipeline {
         }
       }
     }
-
+         }
     stage('Pushing Image') {
 agent {docker{
      cloud 'docker0'
