@@ -65,7 +65,9 @@ pipeline {
             }
         }
          stage('Build image') {
-            agent dockeragent
+           agent {
+                label 'dockeragent'
+            }
       steps{
         script {
           dockerImage = docker.build dockerimagename
@@ -74,7 +76,9 @@ pipeline {
     }
 
     stage('Pushing Image') {
- agent dockeragent
+agent {
+                label 'dockeragent'
+            }
       steps{
         script {
             withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/repository/docker.com') {
