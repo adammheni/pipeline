@@ -77,7 +77,7 @@ pipeline {
     }
 
     stage('Pushing Image') {
-agent docker{
+agent {docker{
      cloud 'docker0'
                 label 'dockeragent'
             }
@@ -89,7 +89,7 @@ agent docker{
 
           }
           }
-          }
+          }}
    /*    stage('Build docker image'){
             steps{
                 script{
