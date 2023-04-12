@@ -43,21 +43,8 @@
                      }
 */
 pipeline {
-    environment {
-        dockerImageName = "adammheni/test"
-    }
-    agent {
-       docker {
-      image 'maven:3.6.3-jdk-11'
-      label 'dockeragent'
-           
-          
-            template {
-                name 'dockeragent'
-         
-            }
-    }
-    }
+    agent any
+    
     tools {
         maven 'maven'
     } 
@@ -71,7 +58,7 @@ pipeline {
                 )
                 sh 'mvn clean install'
             }
-        }
+        }/*
         stage('Build image') {
             steps {
                 script {
@@ -80,7 +67,7 @@ pipeline {
             }
         }
     }
-}
+} */
 /*pipeline {
 
 
@@ -98,7 +85,7 @@ pipeline {
     stages{
         stage('Build Maven'){
             steps{
-               checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/adammheni/pipeline']])
+               checkout scmGit(branches: [[name: '/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/adammheni/pipeline']])
                 sh 'mvn clean install'
             }
         }
@@ -125,32 +112,28 @@ agent {docker{
             }
       steps{
         script {
-            withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/repository/docker.com') {
-  dockerImage.push("latest")
+           
 }
 
           }
           }
           }}*/
-   /*    stage('Build docker image'){
+       stage('Build docker image'){
             steps{
                 script{
                     sh 'docker build -t adammheni/devops .'
                 }
             }
-        }*/
-        /* 
+        }
+         
         stage('Push image to Hub'){
             steps{
                 script{
-                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                   sh 'docker login -u javatechie -p ${dockerhubpwd}'
-
-}
-                   sh 'docker push javatechie/devops-integration'
+                   withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/repository/docker.com') {
+  dockerImage.push("latest")
                 }
             }
-        }
+        }/*
         stage('Deploy to k8s'){
             steps{
                 script{
@@ -159,3 +142,4 @@ agent {docker{
             }*/
         }
     }
+}
