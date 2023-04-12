@@ -65,9 +65,13 @@ pipeline {
             }
         }
          stage('Build image') {
-           agent {docker{
-            
-                label 'dockeragent'
+           agent {     docker {
+            label 'dockeragent'
+           
+          
+            template {
+                name 'dockeragent'
+         
             }}
       steps{
         script {
