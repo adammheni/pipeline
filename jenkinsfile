@@ -45,6 +45,13 @@
 
 pipeline {
 
+
+
+  environment {
+    dockerimagename = "adammheni/test"
+    dockerImage = ""
+  }
+
     agent any 
     
     tools{
@@ -57,13 +64,32 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-       stage('Build docker image'){
+         stage('Build image') {
+      steps{
+        script {
+          dockerImage = docker.build dockerimagename
+        }
+      }
+    }
+
+    stage('Pushing Image') {
+
+      steps{
+        script {
+            withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/repository/docker.com') {
+  dockerImage.push("latest")
+}
+
+          }
+          }
+          }
+   /*    stage('Build docker image'){
             steps{
                 script{
                     sh 'docker build -t adammheni/devops .'
                 }
             }
-        }
+        }*/
         /* 
         stage('Push image to Hub'){
             steps{
