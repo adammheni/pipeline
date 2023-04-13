@@ -132,7 +132,7 @@ agent {docker{
                    /*withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/repository/docker.com') {
   dockerImage.push("latest")
                 }*/
-                withDockerRegistry(credentialsId: 'dock', url: 'https://hub.docker.com/repositories/adammheni') {
+                withDockerRegistry(credentialsId: 'dock', url: 'https://hub.docker.com') {
    dockerImage.push("latest")
 }
             }
