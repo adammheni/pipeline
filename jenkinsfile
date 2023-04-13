@@ -129,9 +129,12 @@ agent {docker{
         stage('Push image to Hub'){
             steps{
                 script{
-                   withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/repository/docker.com') {
+                   /*withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/repository/docker.com') {
   dockerImage.push("latest")
-                }
+                }*/
+                withDockerRegistry(credentialsId: 'dock', url: 'https://hub.docker.com/repositories/adammheni') {
+   dockerImage.push("latest")
+}
             }
         }/*
         stage('Deploy to k8s'){
