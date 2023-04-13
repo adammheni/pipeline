@@ -132,9 +132,13 @@ agent {docker{
                    /*withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/repository/docker.com') {
   dockerImage.push("latest")
                 }*/
-                withDockerRegistry(credentialsId: 'dock') {
+                withCredentials([string(credentialsId: 'dockk', variable: 'dockk12')]) {
+                       sh 'docker login -u adammheni -p ${dockk12}'
+}               
+    sh 'docker push adammheni/devops'
+ /*               withDockerRegistry(credentialsId: 'dock') {
    dockerImage.push("latest")
-}
+*/}
             }
         }/*
         stage('Deploy to k8s'){
