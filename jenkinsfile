@@ -156,11 +156,17 @@ agent {docker{
         stage('Deploy to k8s'){
             steps{
                 script{
-                    kubernetesDeploy (configs: 'deploy.yaml',kubeconfigId: '052ed1db-b9b1-4d22-bd22-5bf40af879c7')
-                }
-            }
-     
-  
+                   // kubernetesDeploy (configs: '',kubeconfigId: '052ed1db-b9b1-4d22-bd22-5bf40af879c7')
+                
+               /*  withKubeConfig([credentialsId: '052ed1db-b9b1-4d22-bd22-5bf40af879c7', serverUrl: 'https://my-kubernetes-cluster']) {
+          sh 'kubectl apply -f deploy.yaml'
+        }
+            }*/
+     withKubeConfig( clusterName: 'kubernetes',  credentialsId: '052ed1db-b9b1-4d22-bd22-5bf40af879c7', namespace: 'jenkins', restrictKubeConfigAccess: false, serverUrl: '172.16.98.128:6443') {
+             sh 'kubectl apply -f deploy.yaml'
+
+}
+  }
     /*stage('Deploy') {
 
       steps {
@@ -171,4 +177,5 @@ agent {docker{
   */
         }
     }
+}
 }
