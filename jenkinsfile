@@ -152,22 +152,22 @@ agent {docker{
           )
         }
       }
-    }/*
+    }*/
         stage('Deploy to k8s'){
             steps{
                 script{
-                    kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: 'k8sconfigpwd')
+                    kubernetesDeploy (configs: 'deploy.yaml',kubeconfigId: '052ed1db-b9b1-4d22-bd22-5bf40af879c7')
                 }
-            }*/
+            }
      
   
-    stage('Deploy') {
+    /*stage('Deploy') {
 
       steps {
         sh 'kubectl apply -f deploy.yaml'
  // Additional steps to deploy the image can be specified here.
       }
     }
-  
+  */
         }
     }
