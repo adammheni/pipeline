@@ -162,7 +162,7 @@ agent {docker{
           sh 'kubectl apply -f deploy.yaml'
         }
             }*/
-     withKubeConfig( clusterName: 'kubernetes',  credentialsId: '052ed1db-b9b1-4d22-bd22-5bf40af879c7', namespace: 'jenkins', restrictKubeConfigAccess: false, serverUrl: '172.16.98.128:6443') {
+     withKubeConfig(credentialsId: 'juk', namespace: 'jenkins', restrictKubeConfigAccess: false, serverUrl: '172.16.98.128:6443'){
              sh 'kubectl apply -f deploy.yaml'
 
 }
