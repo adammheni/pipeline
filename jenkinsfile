@@ -147,7 +147,7 @@ agent {docker{
           kubernetesDeploy(
             kubeconfigId: 'kubeconfig-credentials-id',
             namespace: "",
-            yaml: "",
+            yaml: "deploy.yaml",
            
           )
         }
@@ -164,37 +164,14 @@ agent {docker{
     stage('Deploy') {
          agent {
     kubernetes {
-
-      yaml '''
-apiVersion: apps/v1
-kind: Pod # Kubernetes resource kind we are creating
-metadata:
-  name: spring-boot-k8s-deployment
-spec:
-  selector:
-    matchLabels:
-      app: spring-boot-k8s
-
-  template:
-    metadata:
-      labels:
-        app: spring-boot-k8s
-    spec:
-      containers:
-        - name: spring-boot-k8s
-          image: adammheni/devops:latest # Image that will be used to containers in the cluster
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 8000 # The port that the container is running on in the cluster
-
-      '''
+        sh 'kubectl apply -f deploy.yaml'
       // Additional configuration options for the Kubernetes plugin can be specified here.
     }
   }
-      steps {
+      /*steps {
         sh 'kubectl apply -f deploy.yaml'
  // Additional steps to deploy the image can be specified here.
-      }
+      }*/
     }
   
         }
