@@ -163,10 +163,10 @@ agent {docker{
   
     stage('Deploy') {
          agent {
-    kubernetes {
+    kubernetes 
       
       // Additional configuration options for the Kubernetes plugin can be specified here.
-    }
+    
   }
       steps {
         sh 'kubectl apply -f deploy.yaml'
