@@ -140,12 +140,77 @@ agent {docker{
    dockerImage.push("latest")
 */}
             }
-        }/*
+        }
+    /*        stage('Deploy to Kubernetes') {
+      steps {
+        script {
+          kubernetesDeploy(
+            kubeconfigId: 'kubeconfig-credentials-id',
+            namespace: "",
+            yaml: "",
+           
+          )
+        }
+      }
+    }/*
         stage('Deploy to k8s'){
             steps{
                 script{
                     kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: 'k8sconfigpwd')
                 }
             }*/
+     
+  
+    stage('Deploy') {
+         agent {
+    kubernetes {
+
+      yaml '''
+apiVersion: apps/v1
+kind: Deployment # Kubernetes resource kind we are creating
+metadata:
+  name: spring-boot-k8s-deployment
+spec:
+  selector:
+    matchLabels:
+      app: spring-boot-k8s
+  replicas: 1 # Number of replicas that will be created for this deployment
+  template:
+    metadata:
+      labels:
+        app: spring-boot-k8s
+    spec:
+      containers:
+        - name: spring-boot-k8s
+          image: adammheni/devops:latest # Image that will be used to containers in the cluster
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000 # The port that the container is running on in the cluster
+
+
+---
+
+apiVersion: v1 # Kubernetes API version
+kind: Service # Kubernetes resource kind we are creating
+metadata: # Metadata of the resource kind we are creating
+  name: springboot-k8ssvc
+spec:
+  selector:
+    app: spring-boot-k8s
+  ports:
+    - protocol: "TCP"
+      port: 8000 # The port that the service is running on in the cluster
+      targetPort: 8000 # The port exposed by the service
+  type: NodePort # type of the service.
+      '''
+      // Additional configuration options for the Kubernetes plugin can be specified here.
+    }
+  }
+      steps {
+        sh kubectl apply -f deploy.yaml
+ // Additional steps to deploy the image can be specified here.
+      }
+    }
+  
         }
     }
