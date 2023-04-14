@@ -167,14 +167,14 @@ agent {docker{
 
       yaml '''
 apiVersion: apps/v1
-kind: Deployment # Kubernetes resource kind we are creating
+kind: Pod # Kubernetes resource kind we are creating
 metadata:
   name: spring-boot-k8s-deployment
 spec:
   selector:
     matchLabels:
       app: spring-boot-k8s
-  replicas: 1 # Number of replicas that will be created for this deployment
+
   template:
     metadata:
       labels:
