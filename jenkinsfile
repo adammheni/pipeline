@@ -48,17 +48,18 @@ pipeline {
     tools {
         maven 'maven'
     } 
-    stages {
-        stage('Build Maven') {
-            steps {
-                checkout scmGit(
-                    branches: [[name: '*/main']],
-                    extensions: [],
-                    userRemoteConfigs: [[url: 'https://github.com/adammheni/pipeline']]
-                )
-                sh 'mvn clean install'
-            }
-        }/*
+    // stages {
+    //     stage('Build Maven') {
+    //         steps {
+    //             checkout scmGit(
+    //                 branches: [[name: '*/main']],
+    //                 extensions: [],
+    //                 userRemoteConfigs: [[url: 'https://github.com/adammheni/pipeline']]
+    //             )
+    //             sh 'mvn clean install'
+    //         }
+    //     }
+        /*
         stage('Build image') {
             steps {
                 script {
@@ -115,32 +116,32 @@ agent {docker{
            
 }
 
-          }
-          }
-          }}*/
-       stage('Build docker image'){
-            steps{
-                script{
-                    sh 'docker build -t adammheni/devops .'
-                }
-            }
-        }
+    //       }
+    //       }
+    //       }}*/
+    //    stage('Build docker image'){
+    //         steps{
+    //             script{
+    //                 sh 'docker build -t adammheni/devops .'
+    //             }
+    //         }
+    //     }
          
-        stage('Push image to Hub'){
-            steps{
-                script{
-                   /*withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/repository/docker.com') {
-  dockerImage.push("latest")
-                }*/
-                withCredentials([string(credentialsId: 'dockk', variable: 'dockk12')]) {
-                       sh 'docker login -u adammheni -p ${dockk12}'
-}               
-    sh 'docker push adammheni/devops'
- /*               withDockerRegistry(credentialsId: 'dock') {
-   dockerImage.push("latest")
-*/}
-            }
-        }
+//         stage('Push image to Hub'){
+//             steps{
+//                 script{
+//                    /*withDockerRegistry(credentialsId: 'dockerhub', url: 'https://hub.docker.com/repository/docker.com') {
+//   dockerImage.push("latest")
+//                 }*/
+//                 withCredentials([string(credentialsId: 'dockk', variable: 'dockk12')]) {
+//                        sh 'docker login -u adammheni -p ${dockk12}'
+// }               
+//     sh 'docker push adammheni/devops'
+//  /*               withDockerRegistry(credentialsId: 'dock') {
+//    dockerImage.push("latest")
+// */}
+//             }
+//         }
     /*        stage('Deploy to Kubernetes') {
       steps {
         script {
@@ -154,6 +155,7 @@ agent {docker{
       }
     }*/
         stage('Deploy to k8s'){
+                agent kubernetes{}
             steps{
                 script{
                    // kubernetesDeploy (configs: '',kubeconfigId: '052ed1db-b9b1-4d22-bd22-5bf40af879c7')
@@ -177,5 +179,4 @@ agent {docker{
   */
         }
     }
-}
 }
