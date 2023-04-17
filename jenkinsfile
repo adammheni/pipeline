@@ -155,7 +155,7 @@ agent {docker{
       }
     }*/
         stage('Deploy to k8s'){
-                agent kubernetes{}
+                agent {kubernetes}
             steps{
                 script{
                    // kubernetesDeploy (configs: '',kubeconfigId: '052ed1db-b9b1-4d22-bd22-5bf40af879c7')
