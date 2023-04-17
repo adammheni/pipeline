@@ -48,7 +48,7 @@ pipeline {
     tools {
         maven 'maven'
     } 
-    // stages {
+     stages {
     //     stage('Build Maven') {
     //         steps {
     //             checkout scmGit(
@@ -179,4 +179,5 @@ agent {docker{
   */
         }
     }
+}
 }
